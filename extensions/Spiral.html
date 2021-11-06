@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"/>
+<meta name="description" content="A custom layout that arranges a chain of nodes in a spiral manner."/> 
+<link rel="stylesheet" href="../assets/css/style.css"/> 
+<!-- Copyright 1998-2021 by Northwoods Software Corporation. -->
+<title>Spiral Layout</title>
+</head>
+
+<body>
+  <!-- This top nav is not part of the sample code -->
+  <!--
+  <nav id="navTop" class="w-full z-30 top-0 text-white bg-nwoods-primary">
+    <div class="w-full container max-w-screen-lg mx-auto flex flex-wrap sm:flex-nowrap items-center justify-between mt-0 py-2">
+      <div class="md:pl-4">
+        <a class="text-white hover:text-white no-underline hover:no-underline
+        font-bold text-2xl lg:text-4xl rounded-lg hover:bg-nwoods-secondary " href="../">
+          <h1 class="mb-0 p-1 ">GoJS</h1>
+        </a>
+      </div>
+      <button id="topnavButton" class="rounded-lg sm:hidden focus:outline-none focus:ring" aria-label="Navigation">
+        <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
+          <path id="topnavOpen" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+          <path id="topnavClosed" class="hidden" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      
+      <div id="topnavList" class="hidden sm:block items-center w-auto mt-0 text-white p-0 z-20">
+        <ul class="list-reset list-none font-semibold flex justify-end flex-wrap sm:flex-nowrap items-center px-0 pb-0">
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="../learn/">Learn</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="../samples/">Samples</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="../intro/">Intro</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="../api/">API</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="https://www.nwoods.com/products/register.html">Register</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="../download.html">Download</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="https://forum.nwoods.com/c/gojs/11">Forum</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="https://www.nwoods.com/contact.html"
+           target="_blank" rel="noopener" onclick="getOutboundLink('https://www.nwoods.com/contact.html', 'contact');">Contact</a></li>
+          <li class="p-1 sm:p-0"><a class="topnav-link" href="https://www.nwoods.com/sales/index.html"
+           target="_blank" rel="noopener" onclick="getOutboundLink('https://www.nwoods.com/sales/index.html', 'buy');">Buy</a></li>
+        </ul>
+      </div>
+    
+    </div>
+    <hr class="border-b border-gray-600 opacity-50 my-0 py-0" />
+  </nav>
+  -->
+  <div class="md:flex flex-col md:flex-row md:min-h-screen w-full max-w-screen-xl mx-auto">
+    <!-- <div id="navSide" class="flex flex-col w-full md:w-48 text-gray-700 bg-white flex-shrink-0"></div> -->
+    <!-- * * * * * * * * * * * * * -->
+    <!-- Start of GoJS sample code -->
+    
+    <script src="../release/go.js"></script>
+    <div class="p-4 w-full">
+<script src="SpiralLayout.js"></script>
+
+<script id="code">
+  function init() {
+    if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+    var $ = go.GraphObject.make;
+
+    myDiagram =
+      $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
+        {
+          initialAutoScale: go.Diagram.Uniform,
+          isTreePathToChildren: false,  // links go from child to parent
+          layout: $(SpiralLayout)  // defined in SpiralLayout.js
+        });
+
+        /*
+    myDiagram.nodeTemplate =
+      $(go.Node, go.Panel.Auto,
+        { locationSpot: go.Spot.Center , click: showArrowInfo },
+        $(go.Shape,     { figure: "Circle" }, new go.Binding("fill", "color")),
+        $(go.TextBlock, { margin: 1 }, new go.Binding("text", "key"), new go.Binding("text", "descricao")),
+        $(go.Picture,   { desiredSize: new go.Size(1200, 1200) }, new go.Binding("source", "key", convertKeyImage))
+        );
+        */
+
+      myDiagram.nodeTemplate =
+      $(go.Node, go.Panel.Auto,
+        { locationSpot: go.Spot.Center , click: showArrowInfo },
+        $(go.Picture,   { desiredSize: new go.Size(110, 110) }, new go.Binding("source", "key", convertKeyImage), 
+                        { mouseEnter: function(e, obj) {
+                              console.log(obj);
+                              var status = document.getElementById("myArrowheadInfo");
+                              if (status) status.textContent = obj.ob.descricao;
+                          }
+                        }
+          )      
+        );
+
+    myDiagram.linkTemplate =
+      $(go.Link, { curve: go.Link.Bezier, curviness: 1 },
+        $(go.Shape, { strokeWidth: 6 }));
+
+    var model = new go.TreeModel();
+    model.nodeParentKeyProperty = "next";
+    model.nodeDataArray = [
+      { key: "rangi_papa", next: "hine-ahu-one" , color: "rgba(0,255,0,.0)", descricao: "No início, existia apenas Rangi (pai céu) e Papa (mãe terra), os dois amavam-se em um abraço eterno. A junção dos dois impedia no entanto a presença da luz para deus filhos, que viviam justo no espaço apertado entre o casal sem nunca ter visto a luz. Um de seus filhos, Tane (deus das florestas), decide libertar os irmãos daquela longa escuridão e, com os pés firmados em Papa (mãe terra), empurra o deus céu para longe, separando os pais para sempre. Rangi chorou bastante formando poças de água no corpo de Papa, criando assim os oceanos e o mundo como conhecemos hoje." },
+      { key: "hine-ahu-one", next: "rongo", color: "rgba(0,255,0,.0)", descricao: "Casou com o próprio pai sem saber. Após sua descoberta, fugiu para o submundo. Maui acreditava que poderia se tornar imortal se atravessasse o corpo de Hine, porém esta percebeu sua presença e o matou." },
+      { key: "rongo", next: "ruaumoko", color: "rgba(0,255,0,.0)", descricao: "Junto com Haumania buscou abrigo dentro de Papa, quando Tāwhirimātea executava sua vingança contra os irmãos." },
+      { key: "ruaumoko", next: "takaroa", color: "rgba(0,255,0,.0)", descricao: "Ruaumoko teria  ficado no útero de sua mãe Papa, quando da separação entre Papa e Rangi e os terremotos seriam causados por seus movimentos no útero da mãe." },
+      { key: "takaroa", next: "tane-mahuta", color: "rgba(0,255,0,.0)", descricao: "Seus filhos são Ikatere, o rei dos peixes e Tu-te-wehiwehi, o ancestral dos répteis. Os povos maoris sempre que iam pescar,  honravam o deus dos mares pois estavam entrando em território inimigo. Algumas vezes é retratado como uma baleia ou como um grande peixe que aparece e invoca criaturas marinhas fantásticas, como lagartos verdes, que trazem bons ventos e sereias. As marés são sua respiração." },
+      { key: "tane-mahuta", next: "tawhirimatea", color: "rgba(0,255,0,.0)", descricao: "Ele foi o  principal responsável pela separação dos pais. De todos os seus irmãos, Tane foi o primeiro a  sentir o desejo de ter uma esposa, porém,  como punição por ter separado seus pais, Papa não o deixou ter uma, então, Tane teve que se acasalar com árvores e animais, gerando monstros como serpentes e até mesmo dragões." },
+      { key: "tawhirimatea", next: "tumatawenga", color: "rgba(0,255,0,.0)", descricao: "Deus dos ventos e tempestades. Tentou impedir a separação dos pais pelos irmãos. Tawhiri permaneceu com o pai e juntos planejaram vingança contra seus irmãos.  Tumatauenga, deus da guerra e da humanidade, conseguiu resistir ao clima extremo, tendo inclusive protegido a humanidade com feitiços. Ainda hoje a luta entre eles persiste com furacões e tempestades." },
+      { key: "tumatawenga", next: "urutengangana", color: "rgba(0,255,0,.0)", descricao: "É Tumatauenga quem sugere a morte dos pais para que o mundo pudesse ter luz. Tumatauenga travou disputas com seus irmão e por conta das derrotas, hoje as pessoas podem pescar, cultivar e caçar." },
+      { key: "urutengangana", next: "urutengangana", color: "rgba(0,255,0,.0)", descricao: "Uru não tinha nenhum poder divino e com vergonha permanecia escondido ao lado do pai. Tane, deus das florestas, pegou as lágrimas que o irmão guardava em uma cesta e as derramou na noite do pai, criando as estrelas. Juntos criaram a Via Láctea." }
+     ];
+    myDiagram.model = model;
+  }
+
+  function infoString(obj) {
+    /*
+      var part = obj.part;
+      if (part instanceof go.Adornment) part = part.adornedPart;
+      var msg = "";
+      if (part instanceof go.Link) {
+        var link = part;
+        msg = "toArrow: " + link.data.toArrow + ";\nfromArrow: " + link.data.fromArrow;
+      } else if (part instanceof go.Node) {
+        var node = part;
+        var link = node.linksConnected.first();
+        msg = "toArrow: " + link.data.toArrow + ";\nfromArrow: " + link.data.fromArrow;
+      }
+      */
+     console.log(obj);
+      var msg = obj.ob.descricao;
+      return msg;
+    }
+
+  function showArrowInfo(e, obj) {
+      var msg = infoString(obj);
+      if (msg) {
+        var status = document.getElementById("myArrowheadInfo");
+        if (status) status.textContent = msg;
+      }
+    }
+
+    function convertKeyImage(key) {
+      if (!key) key = "NE";
+      return "imagens/" + key + ".png";
+    }
+
+  window.addEventListener('DOMContentLoaded', init);
+</script>
+
+<div id="sample">
+
+  <div style="width:100%; white-space: nowrap">
+<!--
+  <div id="myDiagramDiv" style="border: solid 1px black; width:100%; height:700px; min-width: 200px"></div>
+  <div id="myArrowheadInfo" style="color:red"></div>
+  <p>
+  This sample demonstrates a custom Layout, SpiralLayout, which assumes the graph consists of a chain of nodes.
+  The layout is defined in its own file, as <a href="SpiralLayout.js">SpiralLayout.js</a>.
+  </p>
+-->
+
+<div style=" display: flex; height: 600px;
+              background-image:url('imagens/plano-fundo.png'); background-size: cover;">
+  <div id="myDiagramDiv" style="height: 600px; background: transparent; border: solid 0px black; float: left; width: 75%;">
+  </div>
+
+  <!--
+  <div id="myArrowheadInfo" style="color: blue; float: left; width: 25%; border: 5px; word-wrap: break-word; vertical-align: middle;">
+  </div>
+-->
+</div>
+
+  <div id="myArrowheadInfo" style="color: blue; float: left; width: 25%; border: 5px; word-wrap: break-word; vertical-align: middle;">
+  </div>
+
+
+
+
+</div>
+
+</div>
+
+</div>
+    </div>
+    <!-- * * * * * * * * * * * * * -->
+    <!--  End of GoJS sample code  -->
+  </div>
+</body>
+<!--  This script is part of the gojs.net website, and is not needed to run the sample -->
+<script src="../assets/js/goSamples.js"></script>
+</html>
