@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"/>
 <meta name="description" content="A custom layout that arranges a chain of nodes in a spiral manner."/> 
 <link rel="stylesheet" href="../assets/css/style.css"/> 
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&display=swap" rel="stylesheet">
 
 <!-- Copyright 1998-2021 by Northwoods Software Corporation. -->
 <title>Mitologia Maori</title>
@@ -16,7 +17,7 @@
       <script src="../release/go.js"></script>
       <script src="SpiralLayout.js"></script>
 
-      <div class="p-4 w-full">
+      <div class="p-4 w-full" style="padding-top: 0%; height: 800px;">
         <script id="code">
           function init() {
             if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
@@ -112,11 +113,32 @@
 
       <div id="sample">
         <div style="width:100%; white-space: nowrap">
-          <div style="display: flex; height: 600px;
+          <div style="display: flex; height: 720px; 
                       background-image:url('imagens/plano-fundo.png'); background-size: cover;">
 
-            <div id="myDiagramDiv" style="height: 600px; background: transparent; border: solid 0px black; float: left; width: 100%;">
+            <div id="myDiagramDiv" style="height: 800px; background: transparent; border: solid 0px black; float: left; width: 70%;">
             </div>
+
+            <div id="div-introducao" style="height: 800px; background: transparent; border: solid 0px black; float: left; width: 30%;">
+              <h1 id="titulo-deuses" class="titulo-modal" style="margin-top: 40%; font-size: 400%; color: white;">Desuse Maori</h1>
+              
+              <div id="texto-introducao"
+                   style="width: 100%; border: solid 0px black; display: inline-block; text-align: justify; word-wrap: break-word;
+                          text-justify: inter-word; font-size: 18px; font-family: 'Libre Franklin', sans-serif; color: white;">
+                          A mitologia Maori tem diversos <br>
+                          elementos da natureza, principalmente <br>
+                          o mar. <br> 
+                          Na cultura Maori, os Deuses são <br>
+                          responsáveis pela criação e manutenção <br>
+                          do universo. <br>
+                          Alguns desses Deuses estão <br>
+                          representados aqui por símbolos <br>
+                          Maori que remetem tanto aos próprios <br>
+                          Deuses quanto a ideia do relacionamento <br>
+                          entre homem, natureza e ancestralidade.
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -132,7 +154,7 @@
             <img id="modal-imagem-detalhe" src="" alt="...">
         </div>
         <div id="myArrowheadInfo" style="width: 60%; display: inline-block; text-align: justify;
-  text-justify: inter-word;">
+                                         text-justify: inter-word; font-size: 16px; font-family: 'Libre Franklin', sans-serif;">
         </div>
     </div>
 
